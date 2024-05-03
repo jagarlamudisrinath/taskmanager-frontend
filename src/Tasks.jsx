@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
+
+
 function TaskTable() {
+    console.log(import.meta.env.VITE_API_URL)
+    const API_URL =  import.meta.env.VITE_API_URL
     const [tasks, setTasks] = useState([]);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
     // Fetch tasks
     useEffect(() => {
-        fetch('http://localhost:8080/get-tasks')
+        fetch(`${API_URL}/get-tasks`)
             .then(response => response.json())
             .then(setTasks)
             .catch(console.error);
@@ -25,7 +29,8 @@ function TaskTable() {
     // Add a new task
     const addTask = (event) => {
         event.preventDefault(); // Prevent form from causing a page reload
-        fetch('http://localhost:8080/add-task', {
+    // const API_URL = "http://localhost:8080"
+        fetch(`${API_URL}/add-task`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -35,7 +40,7 @@ function TaskTable() {
                 description: description
             }).toString()
         }).then(() => {
-            fetch('http://localhost:8080/get-tasks') // Re-fetch tasks
+            fetch(`${API_URL}/get-tasks`) // Re-fetch tasks
                 .then(response => response.json())
                 .then(setTasks)
                 .catch(console.error);
@@ -46,30 +51,30 @@ function TaskTable() {
 
     return (
         <div>
-            <ul class="nav">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-  </li>
-</ul>
+            <ul className="nav">
+            <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="#">Active</a>
+            </li>
+            <li className="nav-item">
+                <a className="nav-link" href="#">Link</a>
+            </li>
+            <li className="nav-item">
+                <a className="nav-link" href="#">Link</a>
+            </li>
+            <li className="nav-item">
+                <a className="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>
+            </ul>
             <form onSubmit={addTask}>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Task Title</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={title} onChange={handleTitleChange}/>
+            <div className="mb-3">
+                <label for="exampleInputEmail1" className="form-label">Task Title</label>
+                <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={title} onChange={handleTitleChange}/>
             </div>
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Task Descrption</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" value={description} onChange={handleDescriptionChange}/>
+                <label for="exampleInputPassword1" className="form-label">Task Descrption</label>
+                <input type="text" className="form-control" id="exampleInputPassword1" value={description} onChange={handleDescriptionChange}/>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary">Submit</button>
             </form>
 
             <table className="table" id="task-table">
